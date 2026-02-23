@@ -1,0 +1,395 @@
+[
+  {
+    "id": "charles-river",
+    "name": "Charles River Laboratories",
+    "website": "https://www.criver.com",
+    "contact_email": "info@criver.com",
+    "headquarters": "Wilmington, MA, USA",
+    "services": [
+      {"category": "cell_based_assay", "turnaround_days": 21, "price_range": "$10K-$40K"},
+      {"category": "in_vivo_efficacy", "turnaround_days": 60, "price_range": "$50K-$200K"},
+      {"category": "toxicology", "turnaround_days": 90, "price_range": "$100K-$500K"},
+      {"category": "ADME_DMPK", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "bioanalytical", "turnaround_days": 21, "price_range": "$10K-$30K"}
+    ],
+    "therapeutic_areas": ["oncology", "neuroscience", "immunology", "rare_disease"],
+    "capabilities": ["xenograft models", "PDX models", "GLP toxicology", "ADME profiling", "biomarker analysis", "PROTAC evaluation"],
+    "specialties": ["in vivo pharmacology", "safety assessment", "drug metabolism"],
+    "size": "large"
+  },
+  {
+    "id": "wuxi-apptec",
+    "name": "WuXi AppTec",
+    "website": "https://www.wuxiapptec.com",
+    "contact_email": "info@wuxiapptec.com",
+    "headquarters": "Shanghai, China",
+    "services": [
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$5K-$30K"},
+      {"category": "medicinal_chemistry", "turnaround_days": 30, "price_range": "$20K-$80K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$25K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$15K"},
+      {"category": "in_vivo_efficacy", "turnaround_days": 45, "price_range": "$30K-$150K"},
+      {"category": "high_throughput_screening", "turnaround_days": 30, "price_range": "$50K-$200K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "metabolic", "neuroscience", "infectious_disease"],
+    "capabilities": ["PROTAC synthesis", "molecular glue chemistry", "DEL screening", "FBDD", "CADD", "scale-up synthesis", "GMP manufacturing"],
+    "specialties": ["medicinal chemistry", "process chemistry", "TPD compound design"],
+    "size": "large"
+  },
+  {
+    "id": "evotec",
+    "name": "Evotec SE",
+    "website": "https://www.evotec.com",
+    "contact_email": "info@evotec.com",
+    "headquarters": "Hamburg, Germany",
+    "services": [
+      {"category": "high_throughput_screening", "turnaround_days": 30, "price_range": "$50K-$200K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$10K-$40K"},
+      {"category": "medicinal_chemistry", "turnaround_days": 30, "price_range": "$25K-$100K"},
+      {"category": "structural_biology", "turnaround_days": 45, "price_range": "$30K-$80K"},
+      {"category": "proteomics", "turnaround_days": 21, "price_range": "$15K-$50K"}
+    ],
+    "therapeutic_areas": ["oncology", "neuroscience", "metabolic", "immunology", "infectious_disease"],
+    "capabilities": ["iPSC disease models", "phenotypic screening", "fragment screening", "TPD platform", "AI-driven drug design", "mass spectrometry proteomics"],
+    "specialties": ["integrated drug discovery", "phenotypic screening", "targeted protein degradation"],
+    "size": "large"
+  },
+  {
+    "id": "eurofins",
+    "name": "Eurofins Discovery",
+    "website": "https://www.eurofinsdiscovery.com",
+    "contact_email": "info@eurofinsdiscovery.com",
+    "headquarters": "Luxembourg City, Luxembourg",
+    "services": [
+      {"category": "biochemical_assay", "turnaround_days": 10, "price_range": "$3K-$15K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$25K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$12K"},
+      {"category": "toxicology", "turnaround_days": 30, "price_range": "$20K-$80K"},
+      {"category": "high_throughput_screening", "turnaround_days": 21, "price_range": "$30K-$150K"}
+    ],
+    "therapeutic_areas": ["oncology", "neuroscience", "cardiovascular", "immunology"],
+    "capabilities": ["kinase profiling", "GPCR assays", "ion channel assays", "safety pharmacology", "selectivity panels", "CEREP panel"],
+    "specialties": ["selectivity profiling", "safety pharmacology", "kinase screening"],
+    "size": "large"
+  },
+  {
+    "id": "reaction-biology",
+    "name": "Reaction Biology",
+    "website": "https://www.reactionbiology.com",
+    "contact_email": "info@reactionbiology.com",
+    "headquarters": "Malvern, PA, USA",
+    "services": [
+      {"category": "biochemical_assay", "turnaround_days": 7, "price_range": "$2K-$10K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "high_throughput_screening", "turnaround_days": 21, "price_range": "$20K-$100K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "epigenetics"],
+    "capabilities": ["ubiquitin pathway assays", "E3 ligase profiling", "degradation assays", "HotSpot kinase panel", "epigenetic enzyme profiling", "TR-FRET"],
+    "specialties": ["ubiquitin pathway", "E3 ligase assays", "targeted protein degradation assays", "kinase profiling"],
+    "size": "medium"
+  },
+  {
+    "id": "champions-oncology",
+    "name": "Champions Oncology",
+    "website": "https://www.championsoncology.com",
+    "contact_email": "info@championsoncology.com",
+    "headquarters": "Hackensack, NJ, USA",
+    "services": [
+      {"category": "in_vivo_efficacy", "turnaround_days": 60, "price_range": "$40K-$150K"},
+      {"category": "cell_based_assay", "turnaround_days": 21, "price_range": "$10K-$40K"},
+      {"category": "genomics", "turnaround_days": 14, "price_range": "$5K-$20K"}
+    ],
+    "therapeutic_areas": ["oncology"],
+    "capabilities": ["TumorGraft PDX", "patient-derived organoids", "ex vivo tumor assays", "genomic profiling", "combination studies"],
+    "specialties": ["PDX models", "oncology pharmacology", "translational oncology"],
+    "size": "medium"
+  },
+  {
+    "id": "crown-bioscience",
+    "name": "Crown Bioscience",
+    "website": "https://www.crownbio.com",
+    "contact_email": "info@crownbio.com",
+    "headquarters": "San Diego, CA, USA",
+    "services": [
+      {"category": "in_vivo_efficacy", "turnaround_days": 45, "price_range": "$30K-$120K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$8K-$30K"},
+      {"category": "genomics", "turnaround_days": 14, "price_range": "$5K-$25K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "metabolic"],
+    "capabilities": ["HuBase PDX database", "syngeneic models", "humanized mouse models", "immuno-oncology", "organoid screening", "biomarker discovery"],
+    "specialties": ["PDX models", "immuno-oncology", "translational models"],
+    "size": "medium"
+  },
+  {
+    "id": "promega",
+    "name": "Promega Corporation",
+    "website": "https://www.promega.com",
+    "contact_email": "custserv@promega.com",
+    "headquarters": "Madison, WI, USA",
+    "services": [
+      {"category": "biochemical_assay", "turnaround_days": 7, "price_range": "$2K-$8K"},
+      {"category": "cell_based_assay", "turnaround_days": 10, "price_range": "$3K-$15K"},
+      {"category": "proteomics", "turnaround_days": 14, "price_range": "$5K-$25K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "cell_biology"],
+    "capabilities": ["NanoBRET ternary complex", "HiBiT degradation assay", "NanoLuc technology", "bioluminescence assays", "cell viability", "target engagement"],
+    "specialties": ["degradation assays", "ternary complex measurement", "NanoBRET TPD assays", "target engagement"],
+    "size": "large"
+  },
+  {
+    "id": "selvita",
+    "name": "Selvita (Ryvu Therapeutics CRO)",
+    "website": "https://www.selvita.com",
+    "contact_email": "info@selvita.com",
+    "headquarters": "Krakow, Poland",
+    "services": [
+      {"category": "medicinal_chemistry", "turnaround_days": 21, "price_range": "$15K-$50K"},
+      {"category": "biochemical_assay", "turnaround_days": 10, "price_range": "$3K-$12K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$10K"},
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$3K-$20K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "neuroscience"],
+    "capabilities": ["integrated drug discovery", "computational chemistry", "SBDD", "PROTAC design", "molecular glue optimization", "ADME screening"],
+    "specialties": ["medicinal chemistry", "TPD compound optimization", "structure-based drug design"],
+    "size": "medium"
+  },
+  {
+    "id": "pharmaron",
+    "name": "Pharmaron",
+    "website": "https://www.pharmaron.com",
+    "contact_email": "info@pharmaron.com",
+    "headquarters": "Beijing, China",
+    "services": [
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$3K-$20K"},
+      {"category": "medicinal_chemistry", "turnaround_days": 21, "price_range": "$15K-$60K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$12K"},
+      {"category": "in_vivo_efficacy", "turnaround_days": 45, "price_range": "$25K-$100K"},
+      {"category": "toxicology", "turnaround_days": 60, "price_range": "$50K-$300K"},
+      {"category": "bioanalytical", "turnaround_days": 14, "price_range": "$5K-$20K"}
+    ],
+    "therapeutic_areas": ["oncology", "neuroscience", "metabolic", "immunology"],
+    "capabilities": ["PROTAC synthesis", "linker chemistry", "PK/PD modeling", "GLP toxicology", "radiolabeled ADME", "large-scale synthesis"],
+    "specialties": ["PROTAC and degrader synthesis", "linker design", "process chemistry"],
+    "size": "large"
+  },
+  {
+    "id": "bioivt",
+    "name": "BioIVT",
+    "website": "https://www.bioivt.com",
+    "contact_email": "info@bioivt.com",
+    "headquarters": "Westbury, NY, USA",
+    "services": [
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$15K"},
+      {"category": "bioanalytical", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$20K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "metabolic", "hepatology"],
+    "capabilities": ["hepatocyte assays", "microsomal stability", "CYP inhibition", "transporter assays", "plasma stability", "protein binding"],
+    "specialties": ["ADME profiling", "hepatic metabolism", "biospecimen services"],
+    "size": "medium"
+  },
+  {
+    "id": "revvity",
+    "name": "Revvity (formerly PerkinElmer)",
+    "website": "https://www.revvity.com",
+    "contact_email": "info@revvity.com",
+    "headquarters": "Waltham, MA, USA",
+    "services": [
+      {"category": "high_throughput_screening", "turnaround_days": 21, "price_range": "$30K-$150K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$8K-$30K"},
+      {"category": "genomics", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "proteomics", "turnaround_days": 21, "price_range": "$10K-$40K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "neuroscience", "rare_disease"],
+    "capabilities": ["AlphaScreen", "AlphaLISA", "high-content imaging", "operetta screening", "LANCE TR-FRET", "flow cytometry"],
+    "specialties": ["high-content screening", "proximity assays", "compound profiling"],
+    "size": "large"
+  },
+  {
+    "id": "proteros",
+    "name": "Proteros Biostructures",
+    "website": "https://www.proteros.com",
+    "contact_email": "info@proteros.com",
+    "headquarters": "Munich, Germany",
+    "services": [
+      {"category": "structural_biology", "turnaround_days": 30, "price_range": "$20K-$60K"},
+      {"category": "biochemical_assay", "turnaround_days": 10, "price_range": "$5K-$20K"},
+      {"category": "high_throughput_screening", "turnaround_days": 21, "price_range": "$30K-$100K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "neuroscience"],
+    "capabilities": ["X-ray crystallography", "cryo-EM", "fragment screening", "SBDD", "ternary complex crystallography", "SPR binding"],
+    "specialties": ["ternary complex structures", "E3 ligase structural biology", "protein crystallography for TPD"],
+    "size": "small"
+  },
+  {
+    "id": "enamine",
+    "name": "Enamine",
+    "website": "https://www.enamine.net",
+    "contact_email": "info@enamine.net",
+    "headquarters": "Kyiv, Ukraine",
+    "services": [
+      {"category": "custom_synthesis", "turnaround_days": 10, "price_range": "$1K-$10K"},
+      {"category": "medicinal_chemistry", "turnaround_days": 14, "price_range": "$5K-$25K"}
+    ],
+    "therapeutic_areas": ["oncology", "neuroscience", "immunology", "infectious_disease"],
+    "capabilities": ["REAL compound library", "make-on-demand compounds", "building block synthesis", "molecular glue building blocks", "E3 ligase ligand libraries", "fragment libraries"],
+    "specialties": ["compound libraries", "building blocks", "make-on-demand synthesis", "E3 ligase ligand supply"],
+    "size": "large"
+  },
+  {
+    "id": "jubilant-biosys",
+    "name": "Jubilant Biosys",
+    "website": "https://www.jubilantbiosys.com",
+    "contact_email": "info@jubilantbiosys.com",
+    "headquarters": "Bangalore, India",
+    "services": [
+      {"category": "medicinal_chemistry", "turnaround_days": 21, "price_range": "$10K-$40K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$15K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$2K-$10K"},
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$2K-$15K"},
+      {"category": "biochemical_assay", "turnaround_days": 10, "price_range": "$3K-$12K"}
+    ],
+    "therapeutic_areas": ["oncology", "metabolic", "immunology", "neuroscience"],
+    "capabilities": ["integrated discovery", "SBDD", "CADD", "degrader chemistry", "PK profiling", "in vitro ADME"],
+    "specialties": ["integrated drug discovery", "medicinal chemistry FTE", "cost-effective screening"],
+    "size": "medium"
+  },
+  {
+    "id": "sai-life-sciences",
+    "name": "Sai Life Sciences",
+    "website": "https://www.sailife.com",
+    "contact_email": "info@sailife.com",
+    "headquarters": "Hyderabad, India",
+    "services": [
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$2K-$15K"},
+      {"category": "medicinal_chemistry", "turnaround_days": 21, "price_range": "$10K-$40K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$2K-$10K"},
+      {"category": "formulation", "turnaround_days": 21, "price_range": "$10K-$30K"},
+      {"category": "bioanalytical", "turnaround_days": 14, "price_range": "$3K-$15K"}
+    ],
+    "therapeutic_areas": ["oncology", "metabolic", "immunology"],
+    "capabilities": ["PROTAC synthesis", "degrader chemistry", "scale-up", "formulation development", "GMP synthesis", "analytical services"],
+    "specialties": ["PROTAC and degrader synthesis", "process chemistry", "scale-up manufacturing"],
+    "size": "medium"
+  },
+  {
+    "id": "crelux",
+    "name": "Crelux (a WuXi company)",
+    "website": "https://www.crelux.com",
+    "contact_email": "info@crelux.com",
+    "headquarters": "Munich, Germany",
+    "services": [
+      {"category": "structural_biology", "turnaround_days": 30, "price_range": "$20K-$60K"},
+      {"category": "biochemical_assay", "turnaround_days": 10, "price_range": "$5K-$15K"},
+      {"category": "high_throughput_screening", "turnaround_days": 21, "price_range": "$25K-$100K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "neuroscience"],
+    "capabilities": ["protein production", "X-ray crystallography", "biophysical screening", "SPR", "DSF thermal shift", "ternary complex structures"],
+    "specialties": ["structural biology for TPD", "ternary complex crystallography", "biophysical characterization"],
+    "size": "small"
+  },
+  {
+    "id": "novabioassays",
+    "name": "NovaBioAssays",
+    "website": "https://www.novabioassays.com",
+    "contact_email": "info@novabioassays.com",
+    "headquarters": "Woburn, MA, USA",
+    "services": [
+      {"category": "biochemical_assay", "turnaround_days": 7, "price_range": "$2K-$8K"},
+      {"category": "cell_based_assay", "turnaround_days": 10, "price_range": "$3K-$15K"},
+      {"category": "proteomics", "turnaround_days": 14, "price_range": "$5K-$25K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology"],
+    "capabilities": ["ubiquitin assays", "E3 ligase activity", "degradation quantification", "AlphaScreen", "TR-FRET", "mass spec degradation"],
+    "specialties": ["TPD assay development", "ubiquitin pathway profiling", "degradation quantification"],
+    "size": "small"
+  },
+  {
+    "id": "chempartner",
+    "name": "ChemPartner",
+    "website": "https://www.chempartner.com",
+    "contact_email": "info@chempartner.com",
+    "headquarters": "Shanghai, China",
+    "services": [
+      {"category": "medicinal_chemistry", "turnaround_days": 21, "price_range": "$10K-$40K"},
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$3K-$15K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "high_throughput_screening", "turnaround_days": 21, "price_range": "$25K-$100K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$12K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "neuroscience", "metabolic"],
+    "capabilities": ["degrader chemistry", "PROTAC design", "HTS campaigns", "CADD", "in vitro pharmacology", "selectivity profiling"],
+    "specialties": ["integrated drug discovery", "HTS", "degrader medicinal chemistry"],
+    "size": "medium"
+  },
+  {
+    "id": "bioduro-sundia",
+    "name": "BioDuro-Sundia",
+    "website": "https://www.bioduro-sundia.com",
+    "contact_email": "info@bioduro-sundia.com",
+    "headquarters": "San Diego, CA, USA",
+    "services": [
+      {"category": "medicinal_chemistry", "turnaround_days": 21, "price_range": "$10K-$40K"},
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$3K-$20K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$12K"},
+      {"category": "in_vivo_efficacy", "turnaround_days": 45, "price_range": "$25K-$100K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology", "neuroscience"],
+    "capabilities": ["PROTAC synthesis", "degrader optimization", "AI drug design", "biology services", "PK studies", "efficacy models"],
+    "specialties": ["degrader chemistry", "AI-augmented drug design", "integrated discovery"],
+    "size": "medium"
+  },
+  {
+    "id": "concept-life-sciences",
+    "name": "Concept Life Sciences",
+    "website": "https://www.conceptlifesciences.com",
+    "contact_email": "info@conceptlifesciences.com",
+    "headquarters": "Manchester, UK",
+    "services": [
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$3K-$15K"},
+      {"category": "bioanalytical", "turnaround_days": 14, "price_range": "$5K-$20K"},
+      {"category": "formulation", "turnaround_days": 21, "price_range": "$10K-$30K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$3K-$12K"}
+    ],
+    "therapeutic_areas": ["oncology", "neuroscience", "metabolic"],
+    "capabilities": ["analytical chemistry", "process development", "formulation", "bioanalytical LC-MS", "stability testing", "method development"],
+    "specialties": ["analytical services", "formulation development", "bioanalytical method validation"],
+    "size": "medium"
+  },
+  {
+    "id": "aragen",
+    "name": "Aragen Life Sciences",
+    "website": "https://www.aragen.com",
+    "contact_email": "info@aragen.com",
+    "headquarters": "Hyderabad, India",
+    "services": [
+      {"category": "custom_synthesis", "turnaround_days": 14, "price_range": "$2K-$12K"},
+      {"category": "medicinal_chemistry", "turnaround_days": 21, "price_range": "$8K-$35K"},
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$3K-$15K"},
+      {"category": "ADME_DMPK", "turnaround_days": 10, "price_range": "$2K-$8K"},
+      {"category": "in_vivo_efficacy", "turnaround_days": 45, "price_range": "$20K-$80K"}
+    ],
+    "therapeutic_areas": ["oncology", "metabolic", "immunology", "rare_disease"],
+    "capabilities": ["integrated discovery", "PROTAC synthesis", "biology screening", "in vivo pharmacology", "DMPK", "computational chemistry"],
+    "specialties": ["cost-effective drug discovery", "integrated FTE model", "degrader chemistry"],
+    "size": "medium"
+  },
+  {
+    "id": "cellective-therapeutics",
+    "name": "Cellective Therapeutics",
+    "website": "https://www.cellective.com",
+    "contact_email": "info@cellective.com",
+    "headquarters": "San Francisco, CA, USA",
+    "services": [
+      {"category": "cell_based_assay", "turnaround_days": 14, "price_range": "$8K-$30K"},
+      {"category": "proteomics", "turnaround_days": 14, "price_range": "$10K-$40K"},
+      {"category": "genomics", "turnaround_days": 14, "price_range": "$8K-$25K"}
+    ],
+    "therapeutic_areas": ["oncology", "immunology"],
+    "capabilities": ["CRISPR screening", "degradation proteomics", "neo-substrate profiling", "mass spec quantification", "TPD selectivity profiling", "unbiased proteomics"],
+    "specialties": ["TPD selectivity profiling", "degradation proteomics", "neo-substrate identification", "molecular glue characterization"],
+    "size": "small"
+  }
+]

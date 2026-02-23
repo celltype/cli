@@ -1,0 +1,13 @@
+╭──────────────────────────────────────────────────── Plan Preview ────────────────────────────────────────────────────╮
+│ Research Plan                                                                                                        │
+│                                                                                                                      │
+│   1. target.coessentiality                                                                                           │
+│      Find co-essential genes                                                                                         │
+│      gene="CRBN"                                                                                                     │
+│   2. expression.pathway_enrichment (after step 1)                                                                    │
+│      Enrich pathways                                                                                                 │
+│   3. literature.pubmed_search (after step 2)                                                                         │
+│      Search literature                                                                                               │
+│      query="CRBN degradation"                                                                                        │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

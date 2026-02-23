@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * *"
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package + test deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Run unit/regression suite
+        run: pytest tests/ -q -m "not api_smoke"
+      - name: Run benchmark release gate
+        run: ct knowledge benchmark --strict --min-pass-rate 0.9
+
+  api-smoke:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package + test deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Run live API smoke checks
+        env:
+          CT_RUN_API_SMOKE: "1"
+          CT_API_SMOKE_STRICT: "1"
+        run: pytest tests/test_api_smoke.py -q
+
+  pharma-ready-gate:
+    if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && secrets.ANTHROPIC_API_KEY != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package + test deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Run strict live pharma-ready prompt matrix
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CT_RUN_E2E_MATRIX: "1"
+          CT_E2E_MATRIX_STRICT: "1"
+          CT_E2E_MATRIX_LIMIT: "10"
+          CT_E2E_MAX_ITER: "2"
+          CT_E2E_MODEL: "claude-sonnet-4-5-20250929"
+        run: pytest tests/test_e2e_matrix.py -q --run-e2e

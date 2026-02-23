@@ -1,0 +1,323 @@
+"""Self-contained HTML report generator for ct.
+
+Converts markdown reports to branded, shareable HTML pages with inline CSS.
+No external dependencies (fonts, CDN, etc.) — works offline in any browser.
+"""
+
+from datetime import datetime, timezone
+from pathlib import Path
+
+# ─── HTML template ────────────────────────────────────────────
+
+HTML_TEMPLATE = """\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<style>
+  :root {{
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --accent: #00d4aa;
+    --accent-dim: #00a88a;
+    --link: #58a6ff;
+    --code-bg: #1c2129;
+    --table-stripe: #161b22;
+    --red: #f85149;
+    --yellow: #d29922;
+    --green: #3fb950;
+  }}
+
+  * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+  body {{
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 2rem 1rem;
+  }}
+
+  .container {{
+    max-width: 800px;
+    margin: 0 auto;
+  }}
+
+  /* Header */
+  .report-header {{
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }}
+  .report-header .brand {{
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }}
+  .report-header h1 {{
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }}
+  .report-header .meta {{
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }}
+
+  /* Query block */
+  .query-block {{
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--text-dim);
+  }}
+
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {{
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    color: var(--text);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }}
+  h1 {{ font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }}
+  h2 {{ font-size: 1.25rem; color: var(--accent); }}
+  h3 {{ font-size: 1.1rem; }}
+  h4 {{ font-size: 1rem; color: var(--text-dim); }}
+
+  /* Paragraphs & text */
+  p {{ margin-bottom: 1rem; }}
+  strong {{ color: #ffffff; }}
+  em {{ color: var(--text-dim); }}
+  a {{ color: var(--link); text-decoration: none; }}
+  a:hover {{ text-decoration: underline; }}
+
+  /* Lists */
+  ul, ol {{ margin-bottom: 1rem; padding-left: 1.5rem; }}
+  li {{ margin-bottom: 0.35rem; }}
+
+  /* Code */
+  code {{
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-size: 0.9em;
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--accent);
+  }}
+  pre {{
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }}
+  pre code {{
+    background: none;
+    padding: 0;
+    color: var(--text);
+  }}
+
+  /* Tables */
+  table {{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }}
+  th {{
+    background: var(--surface);
+    color: var(--accent);
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+  }}
+  td {{
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }}
+  tr:nth-child(even) {{ background: var(--table-stripe); }}
+
+  /* Blockquotes */
+  blockquote {{
+    border-left: 3px solid var(--accent-dim);
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    color: var(--text-dim);
+    background: var(--surface);
+    border-radius: 0 6px 6px 0;
+  }}
+
+  /* Horizontal rule */
+  hr {{
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }}
+
+  /* Footer */
+  .report-footer {{
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }}
+  .report-footer .brand-footer {{
+    color: var(--accent);
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    font-weight: 600;
+  }}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="report-header">
+    <div class="brand">CellType</div>
+    <h1>{title}</h1>
+    <div class="meta">{meta}</div>
+  </div>
+{query_block}
+{body}
+  <div class="report-footer">
+    <p>Generated by <span class="brand-footer">ct</span> &mdash; CellType</p>
+    <p>{timestamp}</p>
+  </div>
+</div>
+</body>
+</html>
+"""
+
+
+def markdown_to_html(md_text: str) -> str:
+    """Convert markdown text to HTML.
+
+    Uses the ``markdown`` library with tables, fenced_code, and toc extensions.
+    Falls back to ``<pre>`` wrapping if the library is not installed.
+    """
+    try:
+        import markdown as md_lib
+
+        return md_lib.markdown(
+            md_text,
+            extensions=["tables", "fenced_code", "toc"],
+        )
+    except ImportError:
+        # Graceful fallback — wrap in <pre> with basic escaping
+        escaped = (
+            md_text
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+        )
+        return f"<pre>{escaped}</pre>"
+
+
+def render_html_report(
+    md_text: str,
+    title: str = "ct Report",
+    query: str = "",
+) -> str:
+    """Render a full self-contained HTML page from markdown content.
+
+    Parameters
+    ----------
+    md_text : str
+        Markdown source text.
+    title : str
+        Page/report title.
+    query : str
+        Original research query (shown in a callout block if provided).
+
+    Returns
+    -------
+    str
+        Complete HTML document string.
+    """
+    body_html = markdown_to_html(md_text)
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    meta = f"Generated {timestamp}"
+
+    query_block = ""
+    if query:
+        query_escaped = (
+            query
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+        )
+        query_block = f'  <div class="query-block">{query_escaped}</div>\n'
+
+    return HTML_TEMPLATE.format(
+        title=title,
+        meta=meta,
+        query_block=query_block,
+        body=body_html,
+        timestamp=timestamp,
+    )
+
+
+def publish_report(md_path: Path, out_path: Path = None) -> Path:
+    """Convert a markdown report file to a self-contained HTML page.
+
+    Parameters
+    ----------
+    md_path : Path
+        Path to the source markdown file.
+    out_path : Path, optional
+        Output path for the HTML file.  Defaults to the same directory and
+        name as *md_path* with a ``.html`` extension.
+
+    Returns
+    -------
+    Path
+        The path to the written HTML file.
+
+    Raises
+    ------
+    FileNotFoundError
+        If *md_path* does not exist.
+    """
+    md_path = Path(md_path)
+    if not md_path.exists():
+        raise FileNotFoundError(f"Markdown file not found: {md_path}")
+
+    md_text = md_path.read_text(encoding="utf-8")
+    title = md_path.stem.replace("_", " ").replace("-", " ").title()
+
+    # Try to extract query from first heading or filename
+    query = ""
+    for line in md_text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("# "):
+            title = stripped.lstrip("# ").strip()
+            break
+
+    html = render_html_report(md_text, title=title, query=query)
+
+    if out_path is None:
+        out_path = md_path.with_suffix(".html")
+
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html, encoding="utf-8")
+
+    return out_path

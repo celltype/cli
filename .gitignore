@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Environment
+.env
+.venv/
+venv/
+
+# Data (large downloaded files — top-level only)
+/data/
+*.csv
+*.tsv
+*.h5
+*.parquet
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+
+# ct runtime
+.ct/
+outputs/
+
+# Test workspace
+cttest/
+
+reports/
+exports/
+busco_downloads/
+*.faa
+*.mafft
+*.clipkit.treefile
+*.clipkit.bionj
+*.clipkit.ckp.gz
+*.clipkit.iqtree
+*.clipkit.log
+*.clipkit.mldist
+*.clipkit.model.gz
+*.mafft.clipkit
+.env
+.claude/worktrees/
+
+
+
+

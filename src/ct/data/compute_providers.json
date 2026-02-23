@@ -1,0 +1,59 @@
+{
+  "providers": [
+    {
+      "id": "lambda",
+      "name": "Lambda Labs",
+      "website": "https://lambdalabs.com",
+      "api_base_url": "https://cloud.lambdalabs.com/api/v1",
+      "gpu_types": [
+        {"id": "A100_80GB", "name": "NVIDIA A100 80GB", "vram_gb": 80, "price_per_hour": 1.29},
+        {"id": "H100_80GB", "name": "NVIDIA H100 80GB", "vram_gb": 80, "price_per_hour": 2.49},
+        {"id": "A10_24GB", "name": "NVIDIA A10 24GB", "vram_gb": 24, "price_per_hour": 0.75}
+      ]
+    },
+    {
+      "id": "runpod",
+      "name": "RunPod",
+      "website": "https://runpod.io",
+      "api_base_url": "https://api.runpod.ai/v2",
+      "gpu_types": [
+        {"id": "A100_80GB", "name": "NVIDIA A100 80GB", "vram_gb": 80, "price_per_hour": 1.19},
+        {"id": "H100_80GB", "name": "NVIDIA H100 80GB", "vram_gb": 80, "price_per_hour": 2.39},
+        {"id": "A6000_48GB", "name": "NVIDIA A6000 48GB", "vram_gb": 48, "price_per_hour": 0.79},
+        {"id": "RTX4090_24GB", "name": "NVIDIA RTX 4090 24GB", "vram_gb": 24, "price_per_hour": 0.44}
+      ]
+    }
+  ],
+  "job_templates": {
+    "boltz2": {
+      "description": "Boltz-2 protein structure prediction",
+      "gpu_requirement_vram_gb": 40,
+      "estimated_time_per_sample_minutes": 15,
+      "recommended_gpu": "A100_80GB"
+    },
+    "alphafold": {
+      "description": "AlphaFold protein structure prediction",
+      "gpu_requirement_vram_gb": 40,
+      "estimated_time_per_sample_minutes": 30,
+      "recommended_gpu": "A100_80GB"
+    },
+    "molecular_dynamics": {
+      "description": "Molecular dynamics simulation",
+      "gpu_requirement_vram_gb": 24,
+      "estimated_time_per_sample_minutes": 120,
+      "recommended_gpu": "A6000_48GB"
+    },
+    "virtual_screening": {
+      "description": "Virtual screening / docking campaign",
+      "gpu_requirement_vram_gb": 24,
+      "estimated_time_per_sample_minutes": 5,
+      "recommended_gpu": "A10_24GB"
+    },
+    "model_training": {
+      "description": "ML model training (fine-tuning, QSAR, etc.)",
+      "gpu_requirement_vram_gb": 40,
+      "estimated_time_per_sample_minutes": 60,
+      "recommended_gpu": "A100_80GB"
+    }
+  }
+}

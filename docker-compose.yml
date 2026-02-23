@@ -1,0 +1,28 @@
+services:
+  ct:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CT_DATA_ENDPOINT=http://data-api:8000
+    volumes:
+      - ct-data:/root/.ct/data
+    stdin_open: true
+    tty: true
+    depends_on:
+      - data-api
+
+  data-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - "${CT_DATA_PATH:-/mnt2/bronze}:/data:ro"
+    environment:
+      CT_DATA_ROOT: /data
+
+volumes:
+  ct-data:
