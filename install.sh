@@ -4,6 +4,7 @@
 set -euo pipefail
 
 PACKAGE="celltype-cli"
+REPO_URL="git+https://github.com/celltype/cli.git"
 MIN_PYTHON="3.10"
 
 # ── Helpers ────────────────────────────────────────────────────
@@ -45,17 +46,19 @@ esac
 
 # ── Install package ────────────────────────────────────────────
 
-if command -v pipx >/dev/null 2>&1; then
-    info "Installing ${PACKAGE} via pipx..."
-    pipx install "$PACKAGE" || pipx upgrade "$PACKAGE"
-    ok "Installed with pipx"
-elif command -v uv >/dev/null 2>&1; then
+INSTALL_SPEC="${PACKAGE} @ ${REPO_URL}"
+
+if command -v uv >/dev/null 2>&1; then
     info "Installing ${PACKAGE} via uv..."
-    uv tool install "$PACKAGE" || uv tool upgrade "$PACKAGE"
+    uv tool install "$INSTALL_SPEC" || uv tool install --force "$INSTALL_SPEC"
     ok "Installed with uv"
+elif command -v pipx >/dev/null 2>&1; then
+    info "Installing ${PACKAGE} via pipx..."
+    pipx install "$REPO_URL" || pipx install --force "$REPO_URL"
+    ok "Installed with pipx"
 else
-    warn "pipx/uv not found — falling back to pip install --user"
-    "$PYTHON" -m pip install --user --upgrade "$PACKAGE"
+    warn "uv/pipx not found — falling back to pip install --user"
+    "$PYTHON" -m pip install --user --upgrade "$INSTALL_SPEC"
     ok "Installed with pip"
 
     # Check if user bin is on PATH
