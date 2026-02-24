@@ -1110,14 +1110,15 @@ def case_study_run(
 
     llm_issue = cfg.llm_preflight_issue()
     if llm_issue:
-        console.print(
-            Panel(
-                f"[bold red]LLM is not configured[/bold red]\n\n{llm_issue}",
-                title="[red]Configuration Error[/red]",
-                border_style="red",
-            )
-        )
-        raise typer.Exit(code=2)
+        console.print("\n  [yellow]First-time setup required.[/yellow]\n")
+        setup_cmd()
+        cfg = Config.load()
+        if model:
+            cfg.set("llm.model", model)
+        llm_issue = cfg.llm_preflight_issue()
+        if llm_issue:
+            console.print(f"\n  [red]Setup incomplete:[/red] {llm_issue}")
+            raise typer.Exit(code=2)
 
     session = Session(config=cfg, verbose=verbose)
     case = CASE_STUDIES[case_id]
@@ -1204,17 +1205,15 @@ def run_query(query: str, context: dict, output: Optional[Path],
 
     llm_issue = cfg.llm_preflight_issue()
     if llm_issue:
-        console.print(
-            Panel(
-                (
-                    f"[bold red]LLM is not configured[/bold red]\n\n{llm_issue}\n\n"
-                    "Run `ct doctor` for a full readiness check."
-                ),
-                title="[red]Configuration Error[/red]",
-                border_style="red",
-            )
-        )
-        raise typer.Exit(code=2)
+        console.print("\n  [yellow]First-time setup required.[/yellow]\n")
+        setup_cmd()
+        cfg = Config.load()
+        if model:
+            cfg.set("llm.model", model)
+        llm_issue = cfg.llm_preflight_issue()
+        if llm_issue:
+            console.print(f"\n  [red]Setup incomplete:[/red] {llm_issue}")
+            raise typer.Exit(code=2)
 
     session = Session(config=cfg, verbose=verbose)
 
@@ -1387,18 +1386,14 @@ def run_interactive(context: dict, output: Optional[Path],
 
     llm_issue = cfg.llm_preflight_issue()
     if llm_issue:
-        console.print(
-            Panel(
-                (
-                    f"[bold red]LLM is not configured[/bold red]\n\n{llm_issue}\n\n"
-                    "Set your key/provider via `ct config set ...`, then run `ct` again.\n"
-                    "Tip: run `ct doctor` for a full readiness check."
-                ),
-                title="[red]Configuration Error[/red]",
-                border_style="red",
-            )
-        )
-        return
+        console.print("\n  [yellow]First-time setup required.[/yellow]\n")
+        setup_cmd()
+        # Reload config after setup
+        cfg = Config.load()
+        llm_issue = cfg.llm_preflight_issue()
+        if llm_issue:
+            console.print(f"\n  [red]Setup incomplete:[/red] {llm_issue}")
+            return
 
     print_banner()
 
