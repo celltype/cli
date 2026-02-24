@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "celltype-cli"
-version = "0.1.0"
+version = "0.1.1"
 description = "CellType CLI — An autonomous agent for drug discovery research"
 readme = "README.md"
 license = "MIT"
