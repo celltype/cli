@@ -1111,7 +1111,7 @@ def case_study_run(
     llm_issue = cfg.llm_preflight_issue()
     if llm_issue:
         console.print("\n  [yellow]First-time setup required.[/yellow]\n")
-        setup_cmd()
+        setup_cmd(api_key=None)
         cfg = Config.load()
         if model:
             cfg.set("llm.model", model)
@@ -1206,7 +1206,7 @@ def run_query(query: str, context: dict, output: Optional[Path],
     llm_issue = cfg.llm_preflight_issue()
     if llm_issue:
         console.print("\n  [yellow]First-time setup required.[/yellow]\n")
-        setup_cmd()
+        setup_cmd(api_key=None)
         cfg = Config.load()
         if model:
             cfg.set("llm.model", model)
@@ -1387,7 +1387,7 @@ def run_interactive(context: dict, output: Optional[Path],
     llm_issue = cfg.llm_preflight_issue()
     if llm_issue:
         console.print("\n  [yellow]First-time setup required.[/yellow]\n")
-        setup_cmd()
+        setup_cmd(api_key=None)
         # Reload config after setup
         cfg = Config.load()
         llm_issue = cfg.llm_preflight_issue()
