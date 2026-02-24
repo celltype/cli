@@ -128,6 +128,13 @@ def setup_cmd(
 
     cfg = Config.load()
 
+    # Azure AI Foundry: skip interactive key prompt when Foundry is configured
+    if os.environ.get("ANTHROPIC_FOUNDRY_API_KEY") or os.environ.get("ANTHROPIC_FOUNDRY_RESOURCE"):
+        console.print("\n  [green]Azure AI Foundry detected. No API key needed.[/green]")
+        cfg.set("llm.provider", "anthropic")
+        cfg.save()
+        return
+
     console.print()
     console.print(
         Panel(

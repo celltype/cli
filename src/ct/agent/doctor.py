@@ -6,6 +6,7 @@ Used by `ct doctor` and interactive `/doctor` to surface actionable setup issues
 
 from dataclasses import dataclass
 import logging
+import os
 from pathlib import Path
 
 from rich.table import Table
@@ -67,12 +68,12 @@ def run_checks(config: Config | None = None, session=None) -> list[DoctorCheck]:
     if llm_issue:
         checks.append(DoctorCheck(name="llm", status="error", detail=llm_issue))
     else:
+        if os.environ.get("ANTHROPIC_FOUNDRY_API_KEY") or os.environ.get("ANTHROPIC_FOUNDRY_RESOURCE"):
+            detail = f"provider=anthropic (Azure Foundry), model={model}"
+        else:
+            detail = f"provider={provider}, model={model}"
         checks.append(
-            DoctorCheck(
-                name="llm",
-                status="ok",
-                detail=f"provider={provider}, model={model}",
-            )
+            DoctorCheck(name="llm", status="ok", detail=detail)
         )
 
     # 3) Output directory availability
