@@ -8,7 +8,7 @@ Ask questions in natural language. celltype-cli plans the analysis, selects the 
 
 ## Benchmark
 
-CellType CLI achieves **90% accuracy** on [BixBench-Verified-50](https://github.com/bixbench/bixbench), outperforming all existing agentic systems for computational biology.
+CellType CLI achieves **90% accuracy** on [BixBench-Verified-50](https://huggingface.co/datasets/phylobio/BixBench-Verified-50), outperforming all existing agentic systems for computational biology.
 
 ![BixBench Benchmark Results](assets/bixbench_benchmark.png)
 
