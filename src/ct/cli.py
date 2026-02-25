@@ -283,6 +283,90 @@ def data_status():
     console.print(dataset_status())
 
 
+# ─── Prompt subcommand ────────────────────────────────────────
+
+prompt_app = typer.Typer(help="Optimize research prompts using evolutionary search")
+app.add_typer(prompt_app, name="prompt")
+
+
+@prompt_app.command("optimize")
+def prompt_optimize(
+    prompt: str = typer.Argument(None, help="The raw research prompt to optimize"),
+    file: Optional[Path] = typer.Option(None, "--file", "-f", help="Read prompt from a file"),
+    iterations: int = typer.Option(3, "--iterations", "-n", help="Max generations"),
+    population: int = typer.Option(4, "--population", "-p", help="Candidates per generation"),
+    budget: float = typer.Option(0.50, "--budget", "-b", help="Max cost in USD"),
+    threshold: float = typer.Option(0.85, "--threshold", "-t", help="Early-stop fitness (0-1)"),
+    json_output: bool = typer.Option(False, "--json", help="Output result as JSON"),
+):
+    """Optimize a drug discovery prompt using LLM-driven evolutionary search."""
+    from ct.agent.config import Config
+    from ct.models.llm import LLMClient
+    from ct.prompt_optimization import PromptOptimizer, BudgetConfig
+
+    # Resolve prompt text
+    raw_prompt = None
+    if file:
+        if not file.exists():
+            console.print(f"[red]File not found:[/red] {file}")
+            raise typer.Exit(code=1)
+        raw_prompt = file.read_text().strip()
+    elif prompt:
+        raw_prompt = prompt.strip()
+
+    if not raw_prompt:
+        console.print(
+            "[yellow]Usage:[/yellow] ct prompt optimize \"<your research question>\"\n"
+            "       ct prompt optimize --file prompt.txt"
+        )
+        raise typer.Exit(code=1)
+
+    cfg = Config.load()
+    issue = cfg.llm_preflight_issue()
+    if issue:
+        console.print(f"[red]{issue}[/red]")
+        raise typer.Exit(code=1)
+
+    model = cfg.get("prompt_optimizer.model") or cfg.get("llm.model")
+    llm = LLMClient(
+        provider=cfg.get("llm.provider"),
+        model=model,
+        api_key=cfg.llm_api_key(),
+    )
+
+    budget_cfg = BudgetConfig(
+        max_iterations=iterations,
+        population_size=population,
+        max_cost_usd=budget,
+        fitness_threshold=threshold,
+        elite_count=int(cfg.get("prompt_optimizer.elite_count", 2)),
+        eval_samples=int(cfg.get("prompt_optimizer.eval_samples", 1)),
+        max_tokens=int(cfg.get("prompt_optimizer.max_tokens", 500000)),
+    )
+
+    optimizer = PromptOptimizer(llm=llm, budget_config=budget_cfg, console=console)
+    result = optimizer.optimize(raw_prompt)
+
+    if json_output:
+        import json as json_mod
+        console.print_json(data={
+            "original": result.original_prompt,
+            "optimized": result.best_prompt,
+            "original_fitness": round(result.original_fitness, 3),
+            "fitness": round(result.best_fitness, 3),
+            "scores": [
+                {"dim": s.dimension, "score": s.score, "reason": s.reasoning}
+                for s in result.best_scores
+            ],
+            "generations": result.generations_run,
+            "candidates_evaluated": result.total_candidates_evaluated,
+            "tokens": result.total_tokens_used,
+            "cost_usd": round(result.total_cost_usd, 4),
+            "stop_reason": result.stop_reason,
+            "early_stopped": result.early_stopped,
+        })
+
+
 # ─── Tool subcommands (direct tool access) ────────────────────
 
 tool_app = typer.Typer(help="Run individual tools directly")

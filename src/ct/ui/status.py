@@ -110,6 +110,13 @@ THINKING_WORDS = {
         "Debugging", "Refactoring", "Searching files", "Analyzing code",
         "Applying changes", "Iterating on fixes",
     ],
+    "optimizing": [
+        "Generating variants", "Mutating prompts", "Evaluating candidates",
+        "Scoring rubric", "Selecting elites", "Crossing over", "Evolving prompts",
+        "Ranking fitness", "Refining scope", "Sharpening specificity",
+        "Improving structure", "Adding depth", "Testing actionability",
+        "Checking completeness", "Iterating generations",
+    ],
 }
 
 

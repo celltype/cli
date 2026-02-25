@@ -53,6 +53,7 @@ SLASH_COMMANDS = {
     "/sessions": "List recent saved sessions",
     "/resume": "Resume a previous session by id/index",
     "/case-study": "Run/list curated case studies (/case-study list)",
+    "/prompt": "Optimize a research prompt before running it",
     "/plan": "Toggle plan mode — preview & approve before executing",
     "/clear": "Clear the screen",
     "/exit": "Exit the terminal",
@@ -806,6 +807,12 @@ class InteractiveTerminal:
             if cmd.startswith("/case-study"):
                 self._handle_case_study_command(query, context)
                 continue
+            if cmd.startswith("/prompt"):
+                parts = query.split(maxsplit=1)
+                raw_prompt = parts[1].strip() if len(parts) > 1 else None
+                self._handle_prompt_optimize(raw_prompt)
+                self._advance_suggestion()
+                continue
 
             # ! prefix — shell command
             if query.startswith("!"):
@@ -957,6 +964,7 @@ class InteractiveTerminal:
             self.console.print("  [1] UI Loading Spinner")
             self.console.print("  [2] Agent Profile (Research/Pharma/Enterprise)")
             self.console.print("  [3] Auto-publish HTML Reports")
+            self.console.print("  [4] Prompt Optimizer")
             self.console.print("  [0] Done")
             self.console.print("\n  Select option: ", end="")
             
@@ -1052,6 +1060,70 @@ class InteractiveTerminal:
                     self.console.print(f"  [green]Auto-publish HTML disabled.[/green]")
                 else:
                     self.console.print("  [dim]Cancelled.[/dim]")
+
+            elif choice == "4":
+                self.console.print(f"\n  [cyan]Prompt Optimizer Settings[/cyan]")
+                cur_gen = cfg.get("prompt_optimizer.max_iterations", 3)
+                cur_pop = cfg.get("prompt_optimizer.population_size", 4)
+                cur_bud = cfg.get("prompt_optimizer.max_cost_usd", 0.50)
+                self.console.print(f"  Current: generations={cur_gen}, population={cur_pop}, budget=${cur_bud}")
+                self.console.print()
+
+                # Generations
+                try:
+                    gen_input = self._prompt_session.prompt(
+                        [("class:prompt", f"  Max generations [{cur_gen}]: ")],
+                    ).strip()
+                except (EOFError, KeyboardInterrupt):
+                    self.console.print("  [dim]Cancelled.[/dim]")
+                    continue
+                if gen_input:
+                    if gen_input.isdigit() and 1 <= int(gen_input) <= 10:
+                        cfg.set("prompt_optimizer.max_iterations", int(gen_input))
+                    else:
+                        self.console.print("  [dim]Invalid (1-10), keeping current.[/dim]")
+
+                # Population
+                try:
+                    pop_input = self._prompt_session.prompt(
+                        [("class:prompt", f"  Population size [{cur_pop}]: ")],
+                    ).strip()
+                except (EOFError, KeyboardInterrupt):
+                    self.console.print("  [dim]Cancelled.[/dim]")
+                    continue
+                if pop_input:
+                    if pop_input.isdigit() and 2 <= int(pop_input) <= 12:
+                        cfg.set("prompt_optimizer.population_size", int(pop_input))
+                    else:
+                        self.console.print("  [dim]Invalid (2-12), keeping current.[/dim]")
+
+                # Budget
+                try:
+                    bud_input = self._prompt_session.prompt(
+                        [("class:prompt", f"  Budget USD [{cur_bud}]: ")],
+                    ).strip()
+                except (EOFError, KeyboardInterrupt):
+                    self.console.print("  [dim]Cancelled.[/dim]")
+                    continue
+                if bud_input:
+                    try:
+                        bud_val = float(bud_input)
+                        if 0.01 <= bud_val <= 5.0:
+                            cfg.set("prompt_optimizer.max_cost_usd", bud_val)
+                        else:
+                            self.console.print("  [dim]Invalid ($0.01-$5.00), keeping current.[/dim]")
+                    except ValueError:
+                        self.console.print("  [dim]Invalid number, keeping current.[/dim]")
+
+                cfg.save()
+                new_gen = cfg.get("prompt_optimizer.max_iterations", 3)
+                new_pop = cfg.get("prompt_optimizer.population_size", 4)
+                new_bud = cfg.get("prompt_optimizer.max_cost_usd", 0.50)
+                self.console.print(
+                    f"  [green]Updated:[/green] generations={new_gen}, "
+                    f"population={new_pop}, budget=${new_bud}"
+                )
+
             else:
                 self.console.print("  [dim]Invalid choice.[/dim]")
 
@@ -1425,6 +1497,54 @@ class InteractiveTerminal:
             self.console.print("\n  [yellow]Interrupted.[/yellow]")
         except Exception as e:
             self.console.print(f"\n  [red]Case study error:[/red] {e}")
+
+    def _handle_prompt_optimize(self, raw_prompt: str | None):
+        """Run prompt optimization from the interactive terminal."""
+        if not raw_prompt:
+            self.console.print(
+                "[yellow]Usage:[/yellow] /prompt <your research question>\n"
+                "  Example: /prompt What targets validate for AML?\n"
+            )
+            return
+
+        from ct.prompt_optimization import PromptOptimizer, BudgetConfig
+        from ct.models.llm import LLMClient
+
+        cfg = self.session.config
+        issue = cfg.llm_preflight_issue()
+        if issue:
+            self.console.print(f"[red]{issue}[/red]")
+            return
+
+        model = cfg.get("prompt_optimizer.model") or cfg.get("llm.model")
+        llm = LLMClient(
+            provider=cfg.get("llm.provider"),
+            model=model,
+            api_key=cfg.llm_api_key(),
+        )
+
+        budget_cfg = BudgetConfig(
+            max_iterations=int(cfg.get("prompt_optimizer.max_iterations", 3)),
+            population_size=int(cfg.get("prompt_optimizer.population_size", 4)),
+            elite_count=int(cfg.get("prompt_optimizer.elite_count", 2)),
+            eval_samples=int(cfg.get("prompt_optimizer.eval_samples", 1)),
+            max_cost_usd=float(cfg.get("prompt_optimizer.max_cost_usd", 0.50)),
+            max_tokens=int(cfg.get("prompt_optimizer.max_tokens", 500000)),
+            fitness_threshold=float(cfg.get("prompt_optimizer.fitness_threshold", 0.85)),
+        )
+
+        optimizer = PromptOptimizer(llm=llm, budget_config=budget_cfg, console=self.console)
+
+        try:
+            result = optimizer.optimize(raw_prompt)
+            self.console.print(
+                "\n[cyan]Tip:[/cyan] Copy the optimized prompt above and "
+                "paste it as your next query.\n"
+            )
+        except KeyboardInterrupt:
+            self.console.print("\n[yellow]Optimization cancelled.[/yellow]")
+        except Exception as e:
+            self.console.print(f"[red]Optimization failed:[/red] {e}")
 
     def _show_help(self):
         command_lines = ["**Slash Commands:**"]

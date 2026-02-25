@@ -128,6 +128,16 @@ DEFAULTS = {
     "knowledge.schema_monitor_enabled": False,
 
     "ops.base_dir": str(Path.home() / ".ct" / "ops"),
+
+    # Prompt optimizer
+    "prompt_optimizer.model": "claude-haiku-4-5-20251001",
+    "prompt_optimizer.max_iterations": 3,
+    "prompt_optimizer.population_size": 4,
+    "prompt_optimizer.elite_count": 2,
+    "prompt_optimizer.eval_samples": 1,
+    "prompt_optimizer.max_cost_usd": 0.50,
+    "prompt_optimizer.max_tokens": 500000,
+    "prompt_optimizer.fitness_threshold": 0.85,
 }
 
 AGENT_PROFILE_PRESETS = {
