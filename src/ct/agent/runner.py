@@ -357,6 +357,24 @@ class AgentRunner:
         # Suppress warnings in SDK subprocess (matplotlib, pydeseq2, numpy, etc.)
         clean_env["PYTHONWARNINGS"] = "ignore"
 
+        # Enable Foundry mode for Agent SDK subprocess if Foundry env vars present
+        if any(clean_env.get(v) for v in (
+            "ANTHROPIC_FOUNDRY_API_KEY",
+            "ANTHROPIC_FOUNDRY_RESOURCE",
+            "ANTHROPIC_FOUNDRY_BASE_URL",
+        )):
+            clean_env["CLAUDE_CODE_USE_FOUNDRY"] = "1"
+            # Pin model names for Foundry deployments
+            clean_env.setdefault(
+                "ANTHROPIC_DEFAULT_SONNET_MODEL", model
+            )
+            clean_env.setdefault(
+                "ANTHROPIC_DEFAULT_OPUS_MODEL", model
+            )
+            clean_env.setdefault(
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL", model
+            )
+
         # Plan mode: use SDK's built-in plan permission mode.
         # In plan mode, Claude outputs a plan then calls ExitPlanMode.
         # We intercept that to show the plan and ask for approval.

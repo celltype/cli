@@ -21,11 +21,31 @@ def test_load_invalid_json_does_not_crash(monkeypatch, tmp_path):
     assert cfg.get("llm.provider") == "anthropic"
 
 
-def test_llm_preflight_requires_anthropic_key():
+def test_llm_preflight_requires_anthropic_key(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.delenv("ANTHROPIC_FOUNDRY_API_KEY", raising=False)
+    monkeypatch.delenv("ANTHROPIC_FOUNDRY_RESOURCE", raising=False)
     cfg = Config(data={"llm.provider": "anthropic"})
     issue = cfg.llm_preflight_issue()
     assert issue is not None
     assert "Anthropic API key" in issue
+
+
+def test_llm_preflight_accepts_foundry_env_vars(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setenv("ANTHROPIC_FOUNDRY_API_KEY", "test-key")
+    monkeypatch.setenv("ANTHROPIC_FOUNDRY_RESOURCE", "test-resource")
+    cfg = Config(data={"llm.provider": "anthropic"})
+    assert cfg.llm_preflight_issue() is None
+
+
+def test_llm_preflight_error_mentions_foundry(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.delenv("ANTHROPIC_FOUNDRY_API_KEY", raising=False)
+    monkeypatch.delenv("ANTHROPIC_FOUNDRY_RESOURCE", raising=False)
+    cfg = Config(data={"llm.provider": "anthropic"})
+    issue = cfg.llm_preflight_issue()
+    assert "Foundry" in issue
 
 
 def test_llm_preflight_requires_openai_key():

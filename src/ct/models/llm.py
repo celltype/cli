@@ -120,9 +120,12 @@ class LLMClient:
 
         if self.provider == "anthropic":
             import anthropic
-            self._client = anthropic.Anthropic(
-                api_key=self.api_key or os.environ.get("ANTHROPIC_API_KEY")
-            )
+            if os.environ.get("ANTHROPIC_FOUNDRY_API_KEY") or os.environ.get("ANTHROPIC_FOUNDRY_RESOURCE"):
+                self._client = anthropic.AnthropicFoundry()
+            else:
+                self._client = anthropic.Anthropic(
+                    api_key=self.api_key or os.environ.get("ANTHROPIC_API_KEY")
+                )
 
         elif self.provider == "openai":
             import openai

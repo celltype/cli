@@ -456,6 +456,13 @@ class Config:
         if self.llm_api_key(provider):
             return None
 
+        # Azure AI Foundry: Foundry-specific env vars are valid Anthropic auth
+        if provider == "anthropic" and (
+            os.environ.get("ANTHROPIC_FOUNDRY_API_KEY")
+            or os.environ.get("ANTHROPIC_FOUNDRY_RESOURCE")
+        ):
+            return None
+
         if provider == "openai":
             return (
                 "OpenAI API key not configured. Set OPENAI_API_KEY or run:\n"
@@ -464,7 +471,9 @@ class Config:
 
         return (
             "Anthropic API key not configured. Set ANTHROPIC_API_KEY or run:\n"
-            "  ct config set llm.api_key <key>"
+            "  ct config set llm.api_key <key>\n"
+            "For Azure AI Foundry: set ANTHROPIC_FOUNDRY_API_KEY and "
+            "ANTHROPIC_FOUNDRY_RESOURCE"
         )
 
     def keys_table(self) -> Table:
