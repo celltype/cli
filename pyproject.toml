@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "celltype-cli"
-version = "0.1.2"
+version = "0.1.3"
 description = "CellType CLI — An autonomous agent for drug discovery research"
 readme = "README.md"
 license = "MIT"
@@ -24,6 +24,7 @@ dependencies = [
     "pandas>=2.0",
     "numpy>=1.24",
     "scipy>=1.10",
+    "matplotlib>=3.7",
     "python-dotenv>=1.0",
     "markdown>=3.5",
     "nbformat>=5.7",

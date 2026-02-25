@@ -20,8 +20,11 @@ warnings.filterwarnings("ignore", message="Unable to import Axes3D")
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 
 # Force non-interactive matplotlib backend before any import
-import matplotlib
-matplotlib.use("Agg")
+try:
+    import matplotlib
+    matplotlib.use("Agg")
+except ImportError:
+    pass  # matplotlib is a required dep; deferred error in _setup_namespace()
 
 
 # Modules blocked from import inside the sandbox
